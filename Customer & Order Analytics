@@ -1,0 +1,67 @@
+--#3
+SELECT distinct acctnum
+FROM BIT_DB.customers cust
+
+INNER JOIN BIT_DB.FebSales Feb
+ON cust.order_id=FEB.orderid
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID';
+
+--#4
+SELECT DISTINCT Product, price
+FROM BIT_DB.JanSales
+WHERE price <=2.99;
+
+SELECT distinct Product, price
+FROM BIT_DB.JanSales
+WHERE price in (SELECT min(price) FROM BIT_DB.JanSales);
+
+--#5
+SELECT sum(quantity)*price as revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product;
+
+
+--#6
+SELECT SUM(Quantity)*price as revenue, Product, Quantity
+FROM BIT_DB.FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101';
+
+SELECT
+sum(Quantity),
+product,
+sum(quantity)*price as revenue
+FROM BIT_DB.FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+
+--#7
+SELECT *
+FROM BIT_DB.FebSales;
+
+SELECT *
+FROM BIT_DB.customers;
+
+SELECT febsales.orderID, customers.acctnum, AVG(febsales.price) AS AvgSales
+FROM BIT_DB.FebSales AS febsales
+LEFT JOIN BIT_DB.customers AS customers
+ON febsales.orderID = customers.order_id
+WHERE febsales.Quantity > 2;
+
+
+SELECT
+count(distinct cust.acctnum),
+avg(quantity*price)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+WHERE Feb.Quantity>2
+AND length(orderid) = 6
+AND orderid <> 'Order ID';
+
+--Filtering
+SELECT Product, SUM(Quantity)
+FROM BIT_DB.FebSales
+WHERE location like '%Los Angeles%'
+GROUP BY Product;
