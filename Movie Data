@@ -1,0 +1,31 @@
+https://www.kaggle.com/datasets/shahjhanalam/movie-data-analytics-dataset?resource=download
+
+SELECT *
+FROM movie.IMDB;
+
+SELECT *
+FROM movie.earning;
+
+SELECT *
+FROM movie.genre;
+
+
+
+
+-- What are the top 10 rated movies?
+SELECT Title, Rating
+FROM movie.IMDB
+ORDER BY Rating desc
+LIMIT 10;
+
+
+
+--What are the best rated comedy movies?
+SELECT Title, Rating
+FROM movie.IMDB AS review
+
+LEFT JOIN movie.genre AS class
+ON review.Movie_id = class.Movie_id
+
+WHERE genre = "Comedy"
+ORDER BY Rating desc;
